@@ -26,4 +26,8 @@ defmodule HexatubeWeb.UserSessionController do
     |> put_flash(:info, "Logged out successfully.")
     |> UserAuth.log_out_user()
   end
+
+  def login(conn, %{"username" => username, "password" => password}) do
+    conn
+  end
 end
