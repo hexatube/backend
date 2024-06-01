@@ -34,10 +34,11 @@ defmodule Hexatube.Accounts.User do
     |> maybe_hash_password(opts)
   end
 
-  defp maybe_hash_password(changeset, _opts) do
+  defp maybe_hash_password(changeset, opts) do
+    hash_password? = Keyword.get(opts, :hash_password, true)
     password = get_change(changeset, :password)
 
-    if password && changeset.valid? do
+    if hash_password? && password && changeset.valid? do
       changeset
       # Hashing could be done with `Ecto.Changeset.prepare_changes/2`, but that
       # would keep the database transaction open longer and hurt performance.

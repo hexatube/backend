@@ -46,7 +46,7 @@ defmodule HexatubeWeb.Router do
   end
 
   scope "/login", HexatubeWeb do
-    pipe_through [:api, :redirect_if_user_is_authenticated]
+    pipe_through [:api]
 
     post "/register", UserRegisterController, :create
     post "/", UserSessionController, :login
