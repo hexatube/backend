@@ -5,26 +5,39 @@ defmodule HexatubeWeb.UserRegistrationController do
   alias Hexatube.Accounts.User
   alias HexatubeWeb.UserAuth
 
-  def new(conn, _params) do
-    changeset = Accounts.change_user_registration(%User{})
-    render(conn, :new, changeset: changeset)
-  end
+  action_fallback HexatubeWeb.FallbackController
 
-  def create(conn, %{"user" => user_params}) do
-    case Accounts.register_user(user_params) do
+  # def new(conn, _params) do
+  #   changeset = Accounts.change_user_registration(%User{})
+  #   render(conn, :new, changeset: changeset)
+  # end
+
+  # def create(conn, %{"user" => user_params}) do
+  #   case Accounts.register_user(user_params) do
+  #     {:ok, user} ->
+  #       {:ok, _} =
+  #         Accounts.deliver_user_confirmation_instructions(
+  #           user,
+  #           &url(~p"/users/confirm/#{&1}")
+  #         )
+
+  #       conn
+  #       |> put_flash(:info, "User created successfully.")
+  #       |> UserAuth.log_in_user(user)
+
+  #     {:error, %Ecto.Changeset{} = changeset} ->
+  #       render(conn, :new, changeset: changeset)
+  #   end
+  # end
+
+  def new_user(conn, %{"username" => username, "password" => password}) do
+    case Accounts.register_user(%{"name" => username, "password" => password}) do
       {:ok, user} ->
-        {:ok, _} =
-          Accounts.deliver_user_confirmation_instructions(
-            user,
-            &url(~p"/users/confirm/#{&1}")
-          )
-
         conn
-        |> put_flash(:info, "User created successfully.")
         |> UserAuth.log_in_user(user)
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        render(conn, :new_user, changeset: changeset)
     end
   end
 end

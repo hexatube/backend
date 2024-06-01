@@ -6,7 +6,7 @@ defmodule Hexatube.Accounts do
   import Ecto.Query, warn: false
   alias Hexatube.Repo
 
-  alias Hexatube.Accounts.User
+  alias Hexatube.Accounts.{User, UserToken}
 
   ## Database getters
 
@@ -121,5 +121,32 @@ defmodule Hexatube.Accounts do
   """
   def change_user_password(user, attrs \\ %{}) do
     User.password_changeset(user, attrs, hash_password: false)
+  end
+
+  ## Session
+
+  @doc """
+  Generates a session token.
+  """
+  def generate_user_session_token(user) do
+    {token, user_token} = UserToken.build_session_token(user)
+    Repo.insert!(user_token)
+    token
+  end
+
+  @doc """
+  Gets the user with the given signed token.
+  """
+  def get_user_by_session_token(token) do
+    {:ok, query} = UserToken.verify_session_token_query(token)
+    Repo.one(query)
+  end
+
+  @doc """
+  Deletes the signed token with the given context.
+  """
+  def delete_user_session_token(token) do
+    Repo.delete_all(UserToken.by_token_and_context_query(token, "session"))
+    :ok
   end
 end
