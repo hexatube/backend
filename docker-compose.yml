@@ -1,0 +1,12 @@
+services:
+  pg:
+    image: dockerhub.timeweb.cloud/bitnami/postgresql:16
+    environment:
+      POSTGRESQL_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pg:/bitnami/postgresql
+
+volumes:
+  pg:
