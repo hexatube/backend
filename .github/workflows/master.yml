@@ -2,12 +2,7 @@ name: app check
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - 'feature/*'
-
 
 jobs:
   elixir-check:
