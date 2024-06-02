@@ -1,6 +1,8 @@
 defmodule HexatubeWeb.Router do
   use HexatubeWeb, :router
 
+  import HexatubeWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,22 +10,13 @@ defmodule HexatubeWeb.Router do
     plug :put_root_layout, html: {HexatubeWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
-
-  scope "/", HexatubeWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", HexatubeWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:hexatube, :dev_routes) do
@@ -40,5 +33,12 @@ defmodule HexatubeWeb.Router do
       live_dashboard "/dashboard", metrics: HexatubeWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  scope "/login", HexatubeWeb do
+    pipe_through :api
+
+    post "/register", UserRegistrationController, :new_user
+    post "/", UserSessionController, :login
   end
 end
