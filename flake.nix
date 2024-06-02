@@ -22,6 +22,7 @@
             extensions = [ "rust-src" ];
           })
           ffmpeg
+          act
         ];
       };
     };

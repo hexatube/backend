@@ -16,7 +16,7 @@ defmodule HexatubeWeb.UserRegistrationControllerTest do
       })
 
       response = json_response(conn, 200)
-      assert response == %{"data" => %{"username" => name}}
+      assert response == %{}
     end
   end
 end

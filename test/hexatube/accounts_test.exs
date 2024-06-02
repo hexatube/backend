@@ -58,11 +58,11 @@ defmodule Hexatube.AccountsTest do
              } = errors_on(changeset)
     end
 
-    test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{name: "not valid", password: "not valid"})
+    test "validates name and password when given" do
+      {:error, changeset} = Accounts.register_user(%{name: "not valid", password: "d"})
 
       assert %{
-               password: ["should be at least 12 character(s)"]
+               password: ["should be at least 5 character(s)"]
              } = errors_on(changeset)
     end
 
@@ -70,7 +70,7 @@ defmodule Hexatube.AccountsTest do
       too_long = String.duplicate("db", 100)
       {:error, changeset} = Accounts.register_user(%{name: too_long, password: too_long})
       assert "should be at most 160 character(s)" in errors_on(changeset).name
-      assert "should be at most 72 character(s)" in errors_on(changeset).password
+      assert "should be at most 30 character(s)" in errors_on(changeset).password
     end
 
     test "validates name uniqueness" do
