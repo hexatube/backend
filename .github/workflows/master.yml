@@ -11,8 +11,6 @@ on:
 jobs:
   elixir-check:
     runs-on: ubuntu-24.04
-    env:
-      ImageOS: ubuntu24
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
