@@ -5,6 +5,12 @@ on: push
 jobs:
   elixir-check:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: bitnami/postgresql:16
+        ports: ['5432:5432']
+        env:
+          POSTGRESQL_PASSWORD: postgres
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1.17.5
