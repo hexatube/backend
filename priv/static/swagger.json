@@ -1,0 +1,64 @@
+{
+  "definitions": {
+    "NewUser": {
+      "description": "User object for registration",
+      "example": {
+        "password": "qwerty1234",
+        "username": "Ivan"
+      },
+      "properties": {
+        "password": {
+          "description": "password",
+          "type": "string"
+        },
+        "username": {
+          "description": "username",
+          "type": "string"
+        }
+      },
+      "required": [
+        "password",
+        "username"
+      ],
+      "title": "NewUser",
+      "type": "object"
+    }
+  },
+  "host": "localhost:4000",
+  "info": {
+    "title": "Hexatube",
+    "version": "1.0"
+  },
+  "paths": {
+    "/login/register": {
+      "post": {
+        "description": "Register new user",
+        "operationId": "HexatubeWeb.UserRegistrationController.new_user",
+        "parameters": [
+          {
+            "description": "user object",
+            "in": "body",
+            "name": "user",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "UserRegistration"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}

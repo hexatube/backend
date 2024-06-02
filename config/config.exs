@@ -31,6 +31,14 @@ config :hexatube, HexatubeWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :hexatube, Hexatube.Mailer, adapter: Swoosh.Adapters.Local
 
+config :hexatube, :phoenix_swagger,
+    swagger_files: %{
+      "priv/static/swagger.json" => [
+        router: HexatubeWeb.Router,
+        endpoint: HexatubeWeb.Endpoint,
+      ]
+    }
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -38,6 +46,8 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :phoenix_swagger, json_library: Jason
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
