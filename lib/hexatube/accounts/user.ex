@@ -20,6 +20,7 @@ defmodule Hexatube.Accounts.User do
   defp validate_name(changeset, opts) do
     changeset
     |> validate_required([:name])
+    |> validate_length(:name, min: 3, max: 160)
     |> maybe_validate_unique_name(opts)
   end
 
