@@ -6,7 +6,11 @@ defmodule HexatubeWeb.UserRegistrationJSON do
 	end
 
 	def show(%{user: user}) do
-		%{data: data(user)}
+		data(user)
+	end
+
+	def empty(_) do
+		%{}
 	end
 
 	defp data(%User{} = user) do
