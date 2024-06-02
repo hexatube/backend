@@ -15,6 +15,7 @@ defmodule HexatubeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/", HexatubeWeb do
@@ -46,7 +47,7 @@ defmodule HexatubeWeb.Router do
   end
 
   scope "/login", HexatubeWeb do
-    pipe_through [:api]
+    pipe_through :api
 
     post "/register", UserRegistrationController, :new_user
     post "/", UserSessionController, :login

@@ -1,4 +1,4 @@
-defmodule HexatubeWeb.UserJSON do
+defmodule HexatubeWeb.UserRegistrationJSON do
 	alias Hexatube.Accounts.User
 
 	def index(%{users: users}) do
@@ -10,9 +10,6 @@ defmodule HexatubeWeb.UserJSON do
 	end
 
 	defp data(%User{} = user) do
-		%{
-			name: user.name
-		}
+		%{username: user.name}
 	end
-
 end
