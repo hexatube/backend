@@ -15,7 +15,7 @@ config :logger, level: :info
 config :hexatube, Hexatube.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "172.17.0.1",
+  hostname: "localhost",
   database: "hexatube_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: false,
