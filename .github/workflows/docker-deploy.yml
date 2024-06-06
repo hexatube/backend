@@ -1,0 +1,29 @@
+name: docker deploy
+
+on:
+  push:
+    branches:
+      - master
+      - 'feature/*'
+
+jobs:
+  builddeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      # https://www.programonaut.com/how-to-deploy-a-docker-image-to-a-server-using-github-actions/
+      - name: install ssh keys
+        - run: |
+            install -m 600 -D /dev/null ~/.ssh/id_rsa
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+      - name: build and push to server
+        run: |
+          docker build . -t hexatube-backend:latest
+          docker save -o hexatube-backend.tar hexatube-backend:latest
+          scp hexatube-backend.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker load -i hexatube-backend.tar && docker compose up -d && exit"
+      - name: cleanup
+        run: |
+          rm -rf ~/.ssh hexatube-backend.tar
