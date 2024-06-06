@@ -51,7 +51,10 @@ defmodule HexatubeWeb.Router do
       info: %{
         version: "1.0",
         title: "Hexatube",
-        basePath: Application.fetch_env!(:hexatube, :base_api),
+        servers: [
+          %{url: "https://hexatube.fun/api"},
+          %{url: "http://localhost:4000"},
+        ]
       }
     }
   end
