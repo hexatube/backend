@@ -31,4 +31,6 @@ config :hexatube, HexatubeWeb.Endpoint,
   secret_key_base: "umm+s+CJYlAFwyMQuDbBS4V9+SICRrxVLvCHcpyzuyYlj26bEDcC5Hc5zTWMK2pW",
   watchers: []
 
-config :hexatube, dev_routes: true
+config :hexatube, 
+  dev_routes: true,
+  base_api: "/api"

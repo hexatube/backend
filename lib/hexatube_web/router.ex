@@ -42,15 +42,16 @@ defmodule HexatubeWeb.Router do
     # post "/", UserSessionController, :login
   end
 
-  scope "/api/swagger" do
+  scope "/swagger" do
     forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :hexatube, swagger_file: "swagger.json"
   end
 
   def swagger_info do
     %{
+      basePath: Application.fetch_env!(:hexatube, :base_api),
       info: %{
         version: "1.0",
-        title: "Hexatube"
+        title: "Hexatube",
       }
     }
   end

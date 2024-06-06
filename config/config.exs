@@ -9,11 +9,11 @@ import Config
 
 config :hexatube,
   ecto_repos: [Hexatube.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  base_api: ""
 
 # Configures the endpoint
 config :hexatube, HexatubeWeb.Endpoint,
-  url: [host: "localhost"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
     formats: [html: HexatubeWeb.ErrorHTML, json: HexatubeWeb.ErrorJSON],

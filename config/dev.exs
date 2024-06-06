@@ -24,7 +24,8 @@ config :hexatube, HexatubeWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "umm+s+CJYlAFwyMQuDbBS4V9+SICRrxVLvCHcpyzuyYlj26bEDcC5Hc5zTWMK2pW",
-  watchers: []
+  watchers: [],
+  url: [host: "localhost"]
 
 # ## SSL Support
 #
@@ -60,7 +61,8 @@ config :hexatube, HexatubeWeb.Endpoint,
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :hexatube, dev_routes: true
+config :hexatube, 
+  dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

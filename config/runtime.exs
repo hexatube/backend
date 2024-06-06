@@ -50,8 +50,11 @@ if config_env() == :prod do
 
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
+  # base_path = System.get_env("PHX_BASE_PATH") || ""
 
   config :hexatube, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+
+  # config :hexatube, :base_api, base_path
 
   config :hexatube, HexatubeWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],

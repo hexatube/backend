@@ -3,8 +3,6 @@ defmodule HexatubeWeb.UserRegistrationController do
   use PhoenixSwagger
 
   alias Hexatube.Accounts
-  alias Hexatube.Accounts.User
-  alias HexatubeWeb.UserAuth
 
   action_fallback HexatubeWeb.FallbackController
 
@@ -34,7 +32,7 @@ defmodule HexatubeWeb.UserRegistrationController do
 
   def new_user(conn, %{"username" => username, "password" => password}) do
     case Accounts.register_user(%{"name" => username, "password" => password}) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
         |> render(:empty)
 

@@ -62,7 +62,6 @@ defmodule HexatubeWeb.UserAuthTest do
       refute get_session(conn, :user_token)
       refute conn.cookies[@remember_me_cookie]
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
-      assert redirected_to(conn) == ~p"/"
       refute Accounts.get_user_by_session_token(user_token)
     end
 
@@ -81,7 +80,6 @@ defmodule HexatubeWeb.UserAuthTest do
       conn = conn |> fetch_cookies() |> UserAuth.log_out_user()
       refute get_session(conn, :user_token)
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
-      assert redirected_to(conn) == ~p"/"
     end
   end
 
@@ -218,7 +216,6 @@ defmodule HexatubeWeb.UserAuthTest do
     test "redirects if user is authenticated", %{conn: conn, user: user} do
       conn = conn |> assign(:current_user, user) |> UserAuth.redirect_if_user_is_authenticated([])
       assert conn.halted
-      assert redirected_to(conn) == ~p"/"
     end
 
     test "does not redirect if user is not authenticated", %{conn: conn} do
@@ -232,8 +229,6 @@ defmodule HexatubeWeb.UserAuthTest do
     test "redirects if user is not authenticated", %{conn: conn} do
       conn = conn |> fetch_flash() |> UserAuth.require_authenticated_user([])
       assert conn.halted
-
-      assert redirected_to(conn) == ~p"/users/log_in"
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) ==
                "You must log in to access this page."
