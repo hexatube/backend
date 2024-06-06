@@ -24,9 +24,8 @@
       "type": "object"
     }
   },
-  "host": "localhost:4000",
   "info": {
-    "basePath": "",
+    "basePath": "/api",
     "title": "Hexatube",
     "version": "1.0"
   },
