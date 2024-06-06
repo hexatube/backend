@@ -12,7 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      # https://www.programonaut.com/how-to-deploy-a-docker-image-to-a-server-using-github-actions/
       - name: install ssh keys
         - run: |
             install -m 600 -D /dev/null ~/.ssh/id_rsa
