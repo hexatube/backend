@@ -26,6 +26,7 @@
   },
   "host": "localhost:4000",
   "info": {
+    "basePath": "",
     "title": "Hexatube",
     "version": "1.0"
   },

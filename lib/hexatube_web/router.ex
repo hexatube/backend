@@ -50,7 +50,8 @@ defmodule HexatubeWeb.Router do
     %{
       info: %{
         version: "1.0",
-        title: "Hexatube"
+        title: "Hexatube",
+        basePath: Application.get_env(:hexatube, :base_api, ""),
       }
     }
   end
