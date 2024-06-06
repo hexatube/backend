@@ -1,0 +1,10 @@
+FROM elixir:1.16.3-otp-25 AS builder
+WORKDIR /app
+ADD . .
+ENV MIX_ENV=prod
+RUN mix ci
+
+FROM scratch
+WORKDIR /app
+COPY --from=builder /app/_build/prod/rel/dev .
+CMD "/app/bin/dev start"
