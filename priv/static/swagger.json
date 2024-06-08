@@ -1,4 +1,5 @@
 {
+  "basePath": "",
   "definitions": {
     "NewUser": {
       "description": "User object for registration",
@@ -24,16 +25,7 @@
       "type": "object"
     }
   },
-  "host": "localhost:4000",
   "info": {
-    "servers": [
-      {
-        "url": "https://hexatube.fun/api"
-      },
-      {
-        "url": "http://localhost:4000"
-      }
-    ],
     "title": "Hexatube",
     "version": "1.0"
   },
