@@ -36,6 +36,15 @@ defmodule Hexatube.ContentTest do
       assert {:error, %Ecto.Changeset{}} = Content.create_video(user, @invalid_attrs)
     end
 
+    test "create_video_without_user/1 creates video" do
+      valid_attrs = %{category: "some category", name: "some name", path: "some path"}
+
+      assert {:ok, %Video{} = video} = Content.create_video_without_user(valid_attrs)
+      assert video.category == "some category"
+      assert video.name == "some name"
+      assert video.path == "some path"
+    end
+
     test "update_video/2 with valid data updates the video" do
       video = video_fixture()
       update_attrs = %{category: "some updated category", name: "some updated name", path: "some updated path"}

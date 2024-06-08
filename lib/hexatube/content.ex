@@ -56,6 +56,12 @@ defmodule Hexatube.Content do
     |> Repo.insert()
   end
 
+  def create_video_without_user(attrs \\ %{}) do
+    %Video{}
+    |> Video.changeset(attrs)
+    |> Repo.insert()
+  end
+
   @doc """
   Updates a video.
 

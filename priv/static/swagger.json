@@ -25,6 +25,7 @@
       "type": "object"
     }
   },
+  "host": "localhost:4000",
   "info": {
     "title": "Hexatube",
     "version": "1.0"
@@ -56,6 +57,53 @@
         "summary": "",
         "tags": [
           "UserRegistration"
+        ]
+      }
+    },
+    "/video/upload": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "Upload new video",
+        "operationId": "HexatubeWeb.VideoController.upload_video",
+        "parameters": [
+          {
+            "description": "video",
+            "in": "formData",
+            "name": "video",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "description": "preview picture",
+            "in": "formData",
+            "name": "preview",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "description": "video name",
+            "in": "formData",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "category",
+            "in": "formData",
+            "name": "category",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "",
+        "tags": [
+          "Video"
         ]
       }
     }

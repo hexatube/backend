@@ -5,8 +5,9 @@ defmodule Hexatube.Repo.Migrations.CreateVideos do
     create table(:videos) do
       add :name, :string, null: false
       add :path, :string, null: false
+      add :preview_path, :string, null: false
       add :category, :string, null: false
-      add :user_id, references(:users), null: false
+      add :user_id, references(:users)
 
       timestamps(type: :utc_datetime)
     end
