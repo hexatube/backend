@@ -1,6 +1,10 @@
 defmodule HexatubeWeb.VideoJSON do
 	alias Hexatube.Content.Video
 
+	def show(%{videos: videos}) do
+		%{videos: for(video <- videos, do: data(video))}
+	end
+
 	def show(%{video: video}) do
 		data(video)
 	end
@@ -10,8 +14,8 @@ defmodule HexatubeWeb.VideoJSON do
 			id: video.id,
 			name: video.name,
 			category: video.category,
-			video: video.path,
-			preview: video.preview_path
+			video: Path.join(["content", video.path]),
+			preview: Path.join(["content", video.preview_path]),
 		}
 	end
 

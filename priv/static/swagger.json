@@ -23,6 +23,40 @@
       ],
       "title": "NewUser",
       "type": "object"
+    },
+    "Video": {
+      "description": "video model info",
+      "properties": {
+        "category": {
+          "description": "video category",
+          "type": "string"
+        },
+        "id": {
+          "description": "video id",
+          "type": "integer"
+        },
+        "name": {
+          "description": "video name",
+          "type": "string"
+        },
+        "preview": {
+          "description": "video preview url",
+          "type": "string"
+        },
+        "video": {
+          "description": "video url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "preview",
+        "video",
+        "category",
+        "name",
+        "id"
+      ],
+      "title": "Video data",
+      "type": "object"
     }
   },
   "host": "localhost:4000",
@@ -57,6 +91,45 @@
         "summary": "",
         "tags": [
           "UserRegistration"
+        ]
+      }
+    },
+    "/video/list": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Videos list",
+        "operationId": "HexatubeWeb.VideoController.list",
+        "parameters": [
+          {
+            "description": "Number of elements per page",
+            "in": "query",
+            "minimum": 1,
+            "name": "page_size",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "description": "Number of the page",
+            "in": "query",
+            "minimum": 1,
+            "name": "page",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Video"
         ]
       }
     },
@@ -100,7 +173,14 @@
         "produces": [
           "application/json"
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Video"
+            }
+          }
+        },
         "summary": "",
         "tags": [
           "Video"

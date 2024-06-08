@@ -6,6 +6,22 @@ defmodule HexatubeWeb.VideoController do
 
   action_fallback HexatubeWeb.FallbackController
 
+  def swagger_definitions do
+    %{
+      Video: swagger_schema do
+        title "Video data"
+        description "video model info"
+        properties do
+          id :integer, "video id", required: true
+          name :string, "video name", required: true
+          category :string, "video category", required: true
+          video :string, "video url", required: true
+          preview :string, "video preview url", required: true
+        end
+      end,
+    }
+  end
+
   swagger_path :upload_video do
     description "Upload new video"
     produces "application/json"
@@ -16,6 +32,7 @@ defmodule HexatubeWeb.VideoController do
       name :formData, :string, "video name", required: true
       category :formData, :string, "category", required: true
     end
+    response 200, "Success", Schema.ref(:Video)
   end
 
   def upload_video(conn, params) do
@@ -42,5 +59,17 @@ defmodule HexatubeWeb.VideoController do
     }) do
       render(conn, :show, video: video)
     end
+  end
+
+  swagger_path :list do
+    description "Videos list"
+    produces "application/json"
+    consumes "application/json"
+    paging
+    response 200, "Success"
+  end
+
+  def list(conn, _params) do
+    render(conn, :empty)
   end
 end

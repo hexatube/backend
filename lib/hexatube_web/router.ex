@@ -45,6 +45,7 @@ defmodule HexatubeWeb.Router do
     pipe_through :api
 
     post "/upload", VideoController, :upload_video
+    get "/list", VideoController, :list
   end
 
   scope "/swagger" do
