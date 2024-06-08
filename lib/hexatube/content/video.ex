@@ -6,6 +6,7 @@ defmodule Hexatube.Content.Video do
     field :category, :string
     field :name, :string
     field :path, :string
+    belongs_to :user, Hexatube.Accounts.User
 
     timestamps(type: :utc_datetime)
   end

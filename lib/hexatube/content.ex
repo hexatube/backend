@@ -49,8 +49,9 @@ defmodule Hexatube.Content do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_video(attrs \\ %{}) do
-    %Video{}
+  def create_video(user, attrs \\ %{}) do
+    user
+    |>Ecto.build_assoc(:videos)
     |> Video.changeset(attrs)
     |> Repo.insert()
   end

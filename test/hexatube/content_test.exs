@@ -5,6 +5,7 @@ defmodule Hexatube.ContentTest do
 
   describe "videos" do
     alias Hexatube.Content.Video
+    alias Hexatube.AccountsFixtures
 
     import Hexatube.ContentFixtures
 
@@ -21,16 +22,18 @@ defmodule Hexatube.ContentTest do
     end
 
     test "create_video/1 with valid data creates a video" do
+      user = AccountsFixtures.user_fixture()
       valid_attrs = %{category: "some category", name: "some name", path: "some path"}
 
-      assert {:ok, %Video{} = video} = Content.create_video(valid_attrs)
+      assert {:ok, %Video{} = video} = Content.create_video(user, valid_attrs)
       assert video.category == "some category"
       assert video.name == "some name"
       assert video.path == "some path"
     end
 
     test "create_video/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Content.create_video(@invalid_attrs)
+      user = AccountsFixtures.user_fixture()
+      assert {:error, %Ecto.Changeset{}} = Content.create_video(user, @invalid_attrs)
     end
 
     test "update_video/2 with valid data updates the video" do
