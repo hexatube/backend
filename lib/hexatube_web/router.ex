@@ -39,7 +39,13 @@ defmodule HexatubeWeb.Router do
     pipe_through :api
 
     post "/register", UserRegistrationController, :new_user
-    # post "/", UserSessionController, :login
+  end
+
+  scope "/video", HexatubeWeb do
+    pipe_through :api
+
+    post "/upload", VideoController, :upload_video
+    get "/list", VideoController, :list
   end
 
   scope "/swagger" do
@@ -48,6 +54,8 @@ defmodule HexatubeWeb.Router do
 
   def swagger_info do
     %{
+      # cannot force to load it from Endpoint config (required to be compilation-time config)
+      # because of ets not configured
       basePath: Application.fetch_env!(:hexatube, :base_api),
       info: %{
         version: "1.0",

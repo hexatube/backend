@@ -10,7 +10,8 @@ import Config
 config :hexatube,
   ecto_repos: [Hexatube.Repo],
   generators: [timestamp_type: :utc_datetime],
-  base_api: ""
+  base_api: "",
+  content_upload_dir: Path.join([File.cwd!(), "content"])
 
 # Configures the endpoint
 config :hexatube, HexatubeWeb.Endpoint,

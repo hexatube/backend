@@ -29,7 +29,8 @@ config :hexatube, HexatubeWeb.Endpoint,
   code_reloader: false,
   debug_errors: true,
   secret_key_base: "umm+s+CJYlAFwyMQuDbBS4V9+SICRrxVLvCHcpyzuyYlj26bEDcC5Hc5zTWMK2pW",
-  watchers: []
+  watchers: [],
+  url: [path: "/api", host: "hexatube.fun", scheme: "https", port: 443]
 
 config :hexatube, 
   dev_routes: true,

@@ -1,4 +1,5 @@
 {
+  "basePath": "",
   "definitions": {
     "NewUser": {
       "description": "User object for registration",
@@ -22,18 +23,43 @@
       ],
       "title": "NewUser",
       "type": "object"
+    },
+    "Video": {
+      "description": "video model info",
+      "properties": {
+        "category": {
+          "description": "video category",
+          "type": "string"
+        },
+        "id": {
+          "description": "video id",
+          "type": "integer"
+        },
+        "name": {
+          "description": "video name",
+          "type": "string"
+        },
+        "preview": {
+          "description": "video preview relative url",
+          "type": "string"
+        },
+        "video": {
+          "description": "video relative url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "preview",
+        "video",
+        "category",
+        "name",
+        "id"
+      ],
+      "title": "Video data",
+      "type": "object"
     }
   },
-  "host": "localhost:4000",
   "info": {
-    "servers": [
-      {
-        "url": "https://hexatube.fun/api"
-      },
-      {
-        "url": "http://localhost:4000"
-      }
-    ],
     "title": "Hexatube",
     "version": "1.0"
   },
@@ -64,6 +90,60 @@
         "summary": "",
         "tags": [
           "UserRegistration"
+        ]
+      }
+    },
+    "/video/upload": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "Upload new video",
+        "operationId": "HexatubeWeb.VideoController.upload_video",
+        "parameters": [
+          {
+            "description": "video",
+            "in": "formData",
+            "name": "video",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "description": "preview picture",
+            "in": "formData",
+            "name": "preview",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "description": "video name",
+            "in": "formData",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "category",
+            "in": "formData",
+            "name": "category",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Video"
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Video"
         ]
       }
     }
