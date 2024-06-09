@@ -15,8 +15,8 @@ defmodule HexatubeWeb.VideoController do
           id :integer, "video id", required: true
           name :string, "video name", required: true
           category :string, "video category", required: true
-          video :string, "video url", required: true
-          preview :string, "video preview url", required: true
+          video :string, "video relative url", required: true
+          preview :string, "video preview relative url", required: true
         end
       end,
     }

@@ -15,7 +15,7 @@ defmodule HexatubeWeb.VideoJSON do
 			name: video.name,
 			category: video.category,
 			video: HexatubeWeb.Endpoint.path("/content/#{video.path}"),
-			preview: Path.join(["content", video.preview_path]),
+			preview: HexatubeWeb.Endpoint.path("/content/#{video.preview_path}"),
 		}
 	end
 
