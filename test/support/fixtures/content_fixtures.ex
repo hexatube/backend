@@ -14,7 +14,8 @@ defmodule Hexatube.ContentFixtures do
       |> Enum.into(%{
         category: "some category",
         name: "some name",
-        path: "some path"
+        path: "some path",
+        preview_path: "some preview"
       })
       
     u = AccountsFixtures.user_fixture()
