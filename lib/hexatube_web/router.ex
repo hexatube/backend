@@ -54,6 +54,8 @@ defmodule HexatubeWeb.Router do
 
   def swagger_info do
     %{
+      # cannot force to load it from Endpoint config (required to be compilation-time config)
+      # because of ets not configured
       basePath: Application.fetch_env!(:hexatube, :base_api),
       info: %{
         version: "1.0",

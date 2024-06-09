@@ -61,13 +61,13 @@ defmodule HexatubeWeb.VideoController do
     end
   end
 
-  swagger_path :list do
-    description "Videos list"
-    produces "application/json"
-    consumes "application/json"
-    paging
-    response 200, "Success"
-  end
+  # swagger_path :list do
+  #   description "Videos list"
+  #   produces "application/json"
+  #   consumes "application/json"
+  #   paging
+  #   response 200, "Success"
+  # end
 
   def list(conn, _params) do
     render(conn, :empty)

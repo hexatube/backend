@@ -94,45 +94,6 @@
         ]
       }
     },
-    "/video/list": {
-      "get": {
-        "consumes": [
-          "application/json"
-        ],
-        "description": "Videos list",
-        "operationId": "HexatubeWeb.VideoController.list",
-        "parameters": [
-          {
-            "description": "Number of elements per page",
-            "in": "query",
-            "minimum": 1,
-            "name": "page_size",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "description": "Number of the page",
-            "in": "query",
-            "minimum": 1,
-            "name": "page",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "summary": "",
-        "tags": [
-          "Video"
-        ]
-      }
-    },
     "/video/upload": {
       "post": {
         "consumes": [
