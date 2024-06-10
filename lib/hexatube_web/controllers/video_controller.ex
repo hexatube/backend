@@ -35,6 +35,7 @@ defmodule HexatubeWeb.VideoController do
     response 200, "Success", Schema.ref(:Video)
   end
 
+  # todo: refactor
   def upload_video(conn, params) do
     video_params = params["video"]
     preview_params = params["preview"]
