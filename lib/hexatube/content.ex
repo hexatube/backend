@@ -52,10 +52,14 @@ defmodule Hexatube.Content do
     where: like(v.name, ^("%" <> query <> "%"))
   end
 
-  defp page_offset(q, page, page_size) do
+  defp page_offset(q, page, page_size) 
+    when page > 0 and page_size > 0 do
     from v in q,
     limit: ^(page_size),
     offset: ^((page-1) * page_size)
+  end
+  defp page_offset(q, _, _) do
+    q
   end
 
   @doc """

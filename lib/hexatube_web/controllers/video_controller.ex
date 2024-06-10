@@ -75,8 +75,8 @@ defmodule HexatubeWeb.VideoController do
   end
 
   def list(conn, params) do
-    page_size = params["page_size"] || 10
-    page = params["page"] || 1
+    {page_size, _} = Integer.parse(params["page_size"] || "10")
+    {page, _} = Integer.parse(params["page"] || "1")
     query = params["query"] || nil
     category = params["category"] || nil
     {videos, total} = Content.get_videos_paging(query, category, page, page_size)
