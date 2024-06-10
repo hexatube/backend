@@ -1,6 +1,11 @@
 defmodule HexatubeWeb.VideoJSON do
 	alias Hexatube.Content.Video
 
+	def with_paging(%{videos: videos, paging: paging, total: total}) do
+		v = Map.put(show(%{videos: videos}), :paging, paging)
+		Map.put(v, :total, total)
+	end
+
 	def show(%{videos: videos}) do
 		%{videos: for(video <- videos, do: data(video))}
 	end
