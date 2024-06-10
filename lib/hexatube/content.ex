@@ -21,6 +21,43 @@ defmodule Hexatube.Content do
     Repo.all(Video)
   end
 
+  def get_videos_paging(query, category, page, page_size) do
+    ecto_query =
+      from v in Video
+
+    ecto_query = 
+      ecto_query
+      |> eq_category(category)
+      |> ilike_query(query)
+
+    total = Repo.one(from v in ecto_query, select: count())
+
+    videos = 
+      ecto_query
+      |> page_offset(page, page_size)
+      |> Repo.all()
+
+    {videos, total}
+  end
+
+  defp eq_category(q, nil), do: q
+  defp eq_category(q, cat) do
+    from v in q,
+    where: v.category == ^cat
+  end
+
+  defp ilike_query(q, nil), do: q
+  defp ilike_query(q, query) do
+    from v in q,
+    where: like(v.name, ^("%" <> query <> "%"))
+  end
+
+  defp page_offset(q, page, page_size) do
+    from v in q,
+    limit: ^(page_size),
+    offset: ^((page-1) * page_size)
+  end
+
   @doc """
   Gets a single video.
 

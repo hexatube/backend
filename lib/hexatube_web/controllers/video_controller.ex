@@ -61,15 +61,24 @@ defmodule HexatubeWeb.VideoController do
     end
   end
 
-  # swagger_path :list do
-  #   description "Videos list"
-  #   produces "application/json"
-  #   consumes "application/json"
-  #   paging
-  #   response 200, "Success"
-  # end
+  swagger_path :list do
+    description "Videos list"
+    produces "application/json"
+    consumes "application/json"
+    paging
+    parameters do
+      category :query, :string, "category id"
+      query :query, :string, "search query"
+    end
+    response 200, "Success"
+  end
 
-  def list(conn, _params) do
-    render(conn, :empty)
+  def list(conn, params) do
+    page_size = params["page_size"] || 10
+    page = params["page"] || 1
+    query = params["query"] || nil
+    category = params["category"] || nil
+    {videos, total} = Content.get_videos_paging(query, category, page, page_size)
+    render(conn, :with_paging, videos: videos, total: total, paging: %{page_size: page_size, page: page})
   end
 end
