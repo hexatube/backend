@@ -82,4 +82,27 @@ defmodule HexatubeWeb.VideoController do
     {videos, total} = Content.get_videos_paging(query, category, page, page_size)
     render(conn, :with_paging, videos: videos, total: total, paging: %{page_size: page_size, page: page})
   end
+
+  swagger_path :get do
+    description "Get video"
+    produces "application/json"
+    parameters do
+      id :query, :integer, "video id"
+    end
+    response 200, "Success"
+    response 404, "Not found"
+  end
+
+  def get(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    case Content.get_video(id) do
+      nil -> {:error, :not_found}
+      video ->
+        render(conn, :show, video: video)
+    end
+  end
+
+  def get(conn, %{}) do
+    {:error, :not_found}
+  end
 end
