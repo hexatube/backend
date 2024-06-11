@@ -78,6 +78,8 @@ defmodule Hexatube.Content do
   """
   def get_video!(id), do: Repo.get!(Video, id)
 
+  def get_video(id), do: Repo.get(Video, id)
+
   @doc """
   Creates a video.
 

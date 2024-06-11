@@ -94,6 +94,36 @@
         ]
       }
     },
+    "/video": {
+      "get": {
+        "description": "Get video",
+        "operationId": "HexatubeWeb.VideoController.get",
+        "parameters": [
+          {
+            "description": "video id",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
     "/video/list": {
       "get": {
         "consumes": [
