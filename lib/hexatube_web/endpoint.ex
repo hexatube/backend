@@ -21,7 +21,7 @@ defmodule HexatubeWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :hexatube,
+    from: {:hexatube, Application.compile_env!(:hexatube, :react_app_path)},
     gzip: false,
     only: HexatubeWeb.static_paths()
 
