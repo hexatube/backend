@@ -59,6 +59,7 @@ defmodule Hexatube.MixProject do
       {:phoenix_swagger, "~> 0.8"},
       {:ex_json_schema, "~> 0.5"},
       {:uuid, "~> 1.1"},
+      {:cors_plug, "~> 3.0"},
     ]
   end
 
