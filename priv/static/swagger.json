@@ -59,7 +59,6 @@
       "type": "object"
     }
   },
-  "host": "localhost:4000",
   "info": {
     "title": "Hexatube",
     "version": "1.0"
