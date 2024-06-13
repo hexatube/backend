@@ -28,4 +28,20 @@ defmodule HexatubeWeb.VideoJSON do
 	def empty(_) do
 		%{}
 	end
+
+	def type_error(%{video: video_type, allowed: allowed}) do
+		%{
+			error: "provided video type (#{video_type}) not allowed, use: #{to_string_sep(allowed)}"
+		}
+	end
+
+	def type_error(%{preview: preview_type, allowed: allowed}) do
+		%{
+			error: "provided preview type (#{preview_type}) not allowed, use: #{to_string_sep(allowed)}"
+		}
+	end
+
+	defp to_string_sep(lst) do
+		Enum.reduce(lst, fn x, acc -> "#{acc}, #{x}" end)
+	end
 end
