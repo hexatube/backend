@@ -35,6 +35,19 @@ defmodule HexatubeWeb.VideoController do
     response 200, "Success", Schema.ref(:Video)
   end
 
+  @mime_types_video [
+    "video/mp4",
+    "video/webm",
+    "video/quicktime"
+  ]
+
+  @mime_types_preview [
+    "image/png",
+    "image/gif",
+    "image/jpeg",
+    "image/webp"
+  ]
+
   # todo: refactor
   def upload_video(conn, params) do
     video_params = params["video"]
@@ -42,6 +55,22 @@ defmodule HexatubeWeb.VideoController do
     name = params["name"]
     category = params["category"]
 
+    with :ok <- allowed_type(video_params.content_type, @mime_types_video, :video),
+         :ok <- allowed_type(preview_params.content_type, @mime_types_preview, :preview),
+         {:ok, video} <- copy_and_create_video(name, category, video_params, preview_params) do
+        render(conn, :show, video: video)
+    else
+      {:error, t, typ} ->
+        if typ == :preview do
+          render(conn, :type_error, preview: t, allowed: @mime_types_preview)
+        else
+          render(conn, :type_error, video: t, allowed: @mime_types_video)
+        end
+      e -> e
+    end
+  end
+
+  defp copy_and_create_video(name, category, video_params, preview_params) do
     id = UUID.uuid4()
     basedir = Application.fetch_env!(:hexatube, :content_upload_dir)
     File.mkdir_p!(basedir)
@@ -52,13 +81,19 @@ defmodule HexatubeWeb.VideoController do
     preview_path = Path.join([basedir, "#{id}#{ext_p}"])
     File.cp(preview_params.path, preview_path)
 
-    with {:ok, video} <- Content.create_video_without_user(%{
+    Content.create_video_without_user(%{
       name: name,
       category: category,
       path: Path.relative_to(video_path, basedir),
       preview_path: Path.relative_to(preview_path, basedir)
-    }) do
-      render(conn, :show, video: video)
+    }) 
+  end
+
+  defp allowed_type(t, l, typ) do
+    if t in l do
+      :ok
+    else
+      {:error, t, typ}
     end
   end
 
