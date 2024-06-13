@@ -7,6 +7,7 @@ defmodule Hexatube.Content.Video do
     field :name, :string
     field :path, :string
     field :preview_path, :string
+    field :type, :string
     belongs_to :user, Hexatube.Accounts.User
 
     timestamps(type: :utc_datetime)
@@ -15,7 +16,7 @@ defmodule Hexatube.Content.Video do
   @doc false
   def changeset(video, attrs) do
     video
-    |> cast(attrs, [:name, :path, :preview_path, :category])
-    |> validate_required([:name, :path, :preview_path, :category])
+    |> cast(attrs, [:name, :path, :preview_path, :category, :type])
+    |> validate_required([:name, :path, :preview_path, :category, :type])
   end
 end

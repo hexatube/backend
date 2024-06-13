@@ -15,7 +15,8 @@ defmodule Hexatube.ContentFixtures do
         category: "some category",
         name: "some name",
         path: "some path",
-        preview_path: "some preview"
+        preview_path: "some preview",
+        type: "video/mp4"
       })
       
     u = AccountsFixtures.user_fixture()

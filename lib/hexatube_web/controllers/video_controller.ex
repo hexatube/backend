@@ -85,7 +85,8 @@ defmodule HexatubeWeb.VideoController do
       name: name,
       category: category,
       path: Path.relative_to(video_path, basedir),
-      preview_path: Path.relative_to(preview_path, basedir)
+      preview_path: Path.relative_to(preview_path, basedir),
+      type: video_params.content_type
     }) 
   end
 

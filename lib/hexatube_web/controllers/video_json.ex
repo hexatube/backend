@@ -22,6 +22,7 @@ defmodule HexatubeWeb.VideoJSON do
 			category: video.category,
 			video: Endpoint.url() <> Endpoint.path("/content/#{video.path}"),
 			preview: Endpoint.url() <> Endpoint.path("/content/#{video.preview_path}"),
+			type: video.type,
 		}
 	end
 
