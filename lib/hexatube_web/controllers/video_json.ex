@@ -1,5 +1,6 @@
 defmodule HexatubeWeb.VideoJSON do
 	alias Hexatube.Content.Video
+	alias HexatubeWeb.Endpoint
 
 	def with_paging(%{videos: videos, paging: paging, total: total}) do
 		v = Map.put(show(%{videos: videos}), :paging, paging)
@@ -19,8 +20,8 @@ defmodule HexatubeWeb.VideoJSON do
 			id: video.id,
 			name: video.name,
 			category: video.category,
-			video: HexatubeWeb.Endpoint.path("/content/#{video.path}"),
-			preview: HexatubeWeb.Endpoint.path("/content/#{video.preview_path}"),
+			video: Endpoint.url() <> Endpoint.path("/content/#{video.path}"),
+			preview: Endpoint.url() <> Endpoint.path("/content/#{video.preview_path}"),
 		}
 	end
 
