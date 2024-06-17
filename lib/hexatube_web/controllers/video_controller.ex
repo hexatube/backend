@@ -2,7 +2,7 @@ defmodule HexatubeWeb.VideoController do
   use HexatubeWeb, :controller
   use PhoenixSwagger
 
-  alias Hexatube.{Accounts, Content}
+  alias Hexatube.Content
 
   action_fallback HexatubeWeb.FallbackController
 
@@ -53,10 +53,11 @@ defmodule HexatubeWeb.VideoController do
     preview_params = params["preview"]
     name = params["name"]
     category = params["category"]
+    user = conn.assigns.current_user
 
     with :ok <- allowed_type(video_params.content_type, @mime_types_video, :video),
          :ok <- allowed_type(preview_params.content_type, @mime_types_preview, :preview),
-         {:ok, video} <- copy_and_create_video(name, category, video_params, preview_params) do
+         {:ok, video} <- copy_and_create_video(name, category, video_params, preview_params, user) do
         render(conn, :show, video: video)
     else
       {:error, t, typ} ->
@@ -69,7 +70,7 @@ defmodule HexatubeWeb.VideoController do
     end
   end
 
-  defp copy_and_create_video(name, category, video_params, preview_params) do
+  defp copy_and_create_video(name, category, video_params, preview_params, user) do
     id = UUID.uuid4()
     basedir = Application.fetch_env!(:hexatube, :content_upload_dir)
     File.mkdir_p!(basedir)
@@ -80,7 +81,7 @@ defmodule HexatubeWeb.VideoController do
     preview_path = Path.join([basedir, "#{id}#{ext_p}"])
     File.cp(preview_params.path, preview_path)
 
-    Content.create_video_without_user(%{
+    Content.create_video(user, %{
       name: name,
       category: category,
       path: Path.relative_to(video_path, basedir),

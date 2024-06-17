@@ -77,7 +77,7 @@ defmodule HexatubeWeb.UserRegistrationControllerTest do
     @tag :capture_log
     setup :register_and_log_in_user
 
-    test "logout", %{conn: conn, user: user} do
+    test "logout", %{conn: conn} do
       conn = post(conn, ~p"/logout", %{})
       response = json_response(conn, 200)
       assert response == %{}
