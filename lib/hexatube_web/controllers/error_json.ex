@@ -18,4 +18,10 @@ defmodule HexatubeWeb.ErrorJSON do
   def render(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
+
+  def error(%{peri: errors}) do
+    %{errors: Enum.reduce(errors, [], fn v, acc ->
+      [v.message | acc]
+    end)}
+  end
 end

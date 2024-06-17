@@ -19,6 +19,34 @@ defmodule HexatubeWeb.UserRegistrationControllerTest do
       response = json_response(conn, 200)
       assert response == %{}
     end
+
+    test "create user with same name", %{conn: conn} do
+      name = unique_user_name()
+      password = valid_user_password()
+
+      conn = post(conn, ~p"/login/register", %{
+        "username" => name,
+        "password" => password
+      })
+      response = json_response(conn, 200)
+      assert response == %{}
+
+      conn = post(conn, ~p"/login/register", %{
+        "username" => name,
+        "password" => password
+      })
+      response = json_response(conn, 422)
+      assert response["errors"] != %{}
+    end
+
+    test "fail params validation", %{conn: conn} do
+      conn = post(conn, ~p"/login/register", %{
+        "username" => 123,
+        "password" => 123 
+      })
+      response = json_response(conn, 200)
+      assert %{"errors" => _} = response
+    end
   end
 
   describe "GET /login/me" do

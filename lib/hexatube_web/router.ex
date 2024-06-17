@@ -15,7 +15,6 @@ defmodule HexatubeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    # plug PhoenixSwagger.Plug.Validate
     plug :fetch_session
     plug :fetch_current_user
   end

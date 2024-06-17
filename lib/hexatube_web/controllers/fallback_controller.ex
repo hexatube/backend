@@ -21,4 +21,10 @@ defmodule HexatubeWeb.FallbackController do
     |> put_view(json: HexatubeWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  def call(conn, {:error, [%Peri.Error{} | tail] = errors}) do
+    conn
+    |> put_view(json: HexatubeWeb.ErrorJSON)
+    |> render(:error, peri: errors)
+  end
 end
