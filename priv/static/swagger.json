@@ -24,6 +24,23 @@
       "title": "NewUser",
       "type": "object"
     },
+    "User": {
+      "description": "User object",
+      "example": {
+        "username": "Ivan"
+      },
+      "properties": {
+        "username": {
+          "description": "username",
+          "type": "string"
+        }
+      },
+      "required": [
+        "username"
+      ],
+      "title": "User",
+      "type": "object"
+    },
     "Video": {
       "description": "video model info",
       "properties": {
@@ -65,6 +82,28 @@
     "version": "1.0"
   },
   "paths": {
+    "/login/me": {
+      "get": {
+        "description": "Get information about current user",
+        "operationId": "HexatubeWeb.UserRegistrationController.me",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "UserRegistration"
+        ]
+      }
+    },
     "/login/register": {
       "post": {
         "description": "Register new user",

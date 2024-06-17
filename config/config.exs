@@ -17,7 +17,7 @@ config :hexatube,
 config :hexatube, HexatubeWeb.Endpoint,
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
-    formats: [html: HexatubeWeb.ErrorHTML, json: HexatubeWeb.ErrorJSON],
+    formats: [json: HexatubeWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: Hexatube.PubSub,

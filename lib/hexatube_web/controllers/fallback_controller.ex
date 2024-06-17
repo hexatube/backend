@@ -18,7 +18,7 @@ defmodule HexatubeWeb.FallbackController do
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> put_view(html: HexatubeWeb.ErrorHTML, json: HexatubeWeb.ErrorJSON)
+    |> put_view(json: HexatubeWeb.ErrorJSON)
     |> render(:"404")
   end
 end

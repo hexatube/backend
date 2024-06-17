@@ -62,6 +62,7 @@ defmodule Hexatube.MixProject do
       {:cors_plug, "~> 3.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:peri, "~> 0.2"},
     ]
   end
 

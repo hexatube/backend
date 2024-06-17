@@ -15,7 +15,9 @@ defmodule HexatubeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    # plug PhoenixSwagger.Plug.Validate
     plug :fetch_session
+    plug :fetch_current_user
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -36,15 +38,28 @@ defmodule HexatubeWeb.Router do
   end
 
   scope "/login", HexatubeWeb do
-    pipe_through :api
+    pipe_through [:api, :redirect_if_user_is_authenticated]
 
     post "/register", UserRegistrationController, :new_user
+    post "/", UserRegistrationController, :login
+  end
+
+  scope "/login", HexatubeWeb do
+    pipe_through [:api, :require_authenticated_user]
+    # pipe_through :api
+
+    get "/me", UserRegistrationController, :me
+  end
+
+  scope "/video", HexatubeWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    post "/upload", VideoController, :upload_video
   end
 
   scope "/video", HexatubeWeb do
     pipe_through :api
 
-    post "/upload", VideoController, :upload_video
     get "/list", VideoController, :list
     get "/", VideoController, :get
   end
