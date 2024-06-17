@@ -57,6 +57,7 @@ defmodule HexatubeWeb.Router do
 
   scope "/video", HexatubeWeb do
     pipe_through [:api, :require_authenticated_user]
+    # pipe_through :api
 
     post "/upload", VideoController, :upload_video
   end
