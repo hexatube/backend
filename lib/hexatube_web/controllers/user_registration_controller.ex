@@ -41,6 +41,7 @@ defmodule HexatubeWeb.UserRegistrationController do
     response 200, "Success"
   end
 
+  # TODO: return 400 on request validation failure
   def new_user(conn, params) do
     with {:ok, valid_data} <- UserRegistrationSchemas.new_user(params),
          {:ok, _user} <- Accounts.register_user(%{"name" => valid_data["username"], "password" => valid_data["password"]}) do

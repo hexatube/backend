@@ -1,4 +1,7 @@
 defmodule HexatubeWeb.UserRegistrationSchemas do
+  @moduledoc """
+  API requests validation schemas.
+  """
   import Peri
 
   defschema :new_user, %{
