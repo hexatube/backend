@@ -21,7 +21,7 @@ defmodule HexatubeWeb.ErrorJSON do
 
   def error(%{peri: errors}) do
     %{errors: Enum.reduce(errors, [], fn v, acc ->
-      [v.message | acc]
+      ["#{Atom.to_string(v.key)} #{v.message}" | acc]
     end)}
   end
 end

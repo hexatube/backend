@@ -20,4 +20,10 @@ defmodule HexatubeWeb.UserRegistrationJSON do
   def me(%{user: user}) do
     data(user)
   end
+
+  def auth_error(_) do
+    %{
+      errors: ["authentication failed"]
+    }
+  end
 end

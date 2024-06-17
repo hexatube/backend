@@ -3,7 +3,7 @@ defmodule HexatubeWeb.UserRegistrationController do
   use PhoenixSwagger
 
   alias Hexatube.Accounts
-  alias HexatubeWeb.UserRegistrationSchemas
+  alias HexatubeWeb.{UserRegistrationSchemas, UserAuth}
 
   action_fallback HexatubeWeb.FallbackController
 
@@ -41,7 +41,6 @@ defmodule HexatubeWeb.UserRegistrationController do
     response 200, "Success"
   end
 
-
   def new_user(conn, params) do
     with {:ok, valid_data} <- UserRegistrationSchemas.new_user(params),
          {:ok, _user} <- Accounts.register_user(%{"name" => valid_data["username"], "password" => valid_data["password"]}) do
@@ -56,8 +55,43 @@ defmodule HexatubeWeb.UserRegistrationController do
     response 200, "Success", Schema.ref(:User)
   end
 
-  def me(conn, params) do
+  def me(conn, _) do
     user = conn.assigns.current_user
     render(conn, :me, user: user)
+  end
+
+  swagger_path :login do
+    description "Authenticate user"
+    produces "application/json"
+    parameters do
+      username :body, :string, "username", required: true
+      password :body, :string, "password", required: true
+    end
+    response 200, "Success"
+  end
+
+  def login(conn, params) do
+    with {:ok, valid_data} <- UserRegistrationSchemas.login(params),
+         %{"username" => name, "password" => password} <- valid_data do
+      if user = Accounts.get_user_by_name_and_password(name, password) do
+        conn
+        |> UserAuth.log_in_user(user, %{"remember_me" => "true"})
+        |> render(:empty)
+      else
+        render(conn, :auth_error)
+      end
+    end
+  end
+
+  swagger_path :logout do
+    description "Logs out user"
+    produces "application/json"
+    response 200, "Success"
+  end
+
+  def logout(conn, _) do
+    conn
+    |> UserAuth.log_out_user()
+    |> render(:empty)
   end
 end

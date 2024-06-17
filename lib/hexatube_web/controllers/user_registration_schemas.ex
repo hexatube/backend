@@ -5,4 +5,9 @@ defmodule HexatubeWeb.UserRegistrationSchemas do
     username: {:required, :string},
     password: {:required, :string}
   }
+
+  defschema :login, %{
+    username: {:required, :string},
+    password: {:required, :string}
+  }
 end

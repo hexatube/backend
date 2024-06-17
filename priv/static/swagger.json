@@ -81,6 +81,40 @@
     "version": "1.0"
   },
   "paths": {
+    "/login": {
+      "post": {
+        "description": "Authenticate user",
+        "operationId": "HexatubeWeb.UserRegistrationController.login",
+        "parameters": [
+          {
+            "description": "username",
+            "in": "body",
+            "name": "username",
+            "required": true,
+            "schema": "string"
+          },
+          {
+            "description": "password",
+            "in": "body",
+            "name": "password",
+            "required": true,
+            "schema": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "UserRegistration"
+        ]
+      }
+    },
     "/login/me": {
       "get": {
         "description": "Get information about current user",
@@ -118,6 +152,25 @@
             }
           }
         ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "UserRegistration"
+        ]
+      }
+    },
+    "/logout": {
+      "post": {
+        "description": "Logs out user",
+        "operationId": "HexatubeWeb.UserRegistrationController.logout",
+        "parameters": [],
         "produces": [
           "application/json"
         ],

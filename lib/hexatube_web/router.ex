@@ -45,9 +45,14 @@ defmodule HexatubeWeb.Router do
 
   scope "/login", HexatubeWeb do
     pipe_through [:api, :require_authenticated_user]
-    # pipe_through :api
 
     get "/me", UserRegistrationController, :me
+  end
+
+  scope "/logout", HexatubeWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    post "/", UserRegistrationController, :logout
   end
 
   scope "/video", HexatubeWeb do
