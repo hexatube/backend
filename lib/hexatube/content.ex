@@ -23,16 +23,16 @@ defmodule Hexatube.Content do
 
   def get_videos_paging(query, category, page, page_size) do
     ecto_query =
-      from v in Video
+      from(v in Video)
 
-    ecto_query = 
+    ecto_query =
       ecto_query
       |> eq_category(category)
       |> ilike_query(query)
 
     total = Repo.one(from v in ecto_query, select: count())
 
-    videos = 
+    videos =
       ecto_query
       |> page_offset(page, page_size)
       |> Repo.all()
@@ -41,23 +41,26 @@ defmodule Hexatube.Content do
   end
 
   defp eq_category(q, nil), do: q
+
   defp eq_category(q, cat) do
     from v in q,
-    where: v.category == ^cat
+      where: v.category == ^cat
   end
 
   defp ilike_query(q, nil), do: q
+
   defp ilike_query(q, query) do
     from v in q,
-    where: like(v.name, ^("%" <> query <> "%"))
+      where: like(v.name, ^("%" <> query <> "%"))
   end
 
-  defp page_offset(q, page, page_size) 
-    when page > 0 and page_size > 0 do
+  defp page_offset(q, page, page_size)
+       when page > 0 and page_size > 0 do
     from v in q,
-    limit: ^(page_size),
-    offset: ^((page-1) * page_size)
+      limit: ^page_size,
+      offset: ^((page - 1) * page_size)
   end
+
   defp page_offset(q, _, _) do
     q
   end
@@ -94,7 +97,7 @@ defmodule Hexatube.Content do
   """
   def create_video(user, attrs \\ %{}) do
     user
-    |>Ecto.build_assoc(:videos)
+    |> Ecto.build_assoc(:videos)
     |> Video.changeset(attrs)
     |> Repo.insert()
   end
