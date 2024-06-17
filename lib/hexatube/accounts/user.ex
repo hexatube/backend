@@ -1,4 +1,7 @@
 defmodule Hexatube.Accounts.User do
+  @moduledoc """
+  User schema for DB.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

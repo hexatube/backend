@@ -48,7 +48,6 @@ defmodule HexatubeWeb.VideoController do
     "image/webp"
   ]
 
-  # todo: refactor
   def upload_video(conn, params) do
     video_params = params["video"]
     preview_params = params["preview"]
@@ -138,7 +137,7 @@ defmodule HexatubeWeb.VideoController do
     end
   end
 
-  def get(conn, %{}) do
+  def get(_conn, %{}) do
     {:error, :not_found}
   end
 end

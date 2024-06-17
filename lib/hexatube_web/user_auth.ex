@@ -1,4 +1,7 @@
 defmodule HexatubeWeb.UserAuth do
+  @moduledoc """
+  Context for working with users and authentication.
+  """
   use HexatubeWeb, :verified_routes
 
   import Plug.Conn
