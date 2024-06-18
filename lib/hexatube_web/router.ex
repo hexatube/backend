@@ -16,6 +16,7 @@ defmodule HexatubeWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
+    plug :fetch_current_user
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -36,15 +37,33 @@ defmodule HexatubeWeb.Router do
   end
 
   scope "/login", HexatubeWeb do
-    pipe_through :api
+    pipe_through [:api, :redirect_if_user_is_authenticated]
 
     post "/register", UserRegistrationController, :new_user
+    post "/", UserRegistrationController, :login
+  end
+
+  scope "/login", HexatubeWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    get "/me", UserRegistrationController, :me
+  end
+
+  scope "/logout", HexatubeWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    post "/", UserRegistrationController, :logout
+  end
+
+  scope "/video", HexatubeWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    post "/upload", VideoController, :upload_video
   end
 
   scope "/video", HexatubeWeb do
     pipe_through :api
 
-    post "/upload", VideoController, :upload_video
     get "/list", VideoController, :list
     get "/", VideoController, :get
   end
@@ -58,6 +77,12 @@ defmodule HexatubeWeb.Router do
       # cannot force to load it from Endpoint config (required to be compilation-time config)
       # because of ets not configured
       basePath: Application.fetch_env!(:hexatube, :base_api),
+      securityDefinitions: %{
+        cookie: %{
+          type: "basic",
+          description: "authorized request required",
+        },
+      },
       info: %{
         version: "1.0",
         title: "Hexatube",

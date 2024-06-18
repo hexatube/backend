@@ -19,34 +19,27 @@ defmodule HexatubeWeb.UserAuthTest do
     %{user: user_fixture(), conn: conn}
   end
 
-  # describe "log_in_user/3" do
-  #   test "stores the user token in the session", %{conn: conn, user: user} do
-  #     conn = UserAuth.log_in_user(conn, user)
-  #     assert token = get_session(conn, :user_token)
-  #     assert get_session(conn, :live_socket_id) == "users_sessions:#{Base.url_encode64(token)}"
-  #     assert redirected_to(conn) == ~p"/"
-  #     assert Accounts.get_user_by_session_token(token)
-  #   end
+  describe "log_in_user/3" do
+    test "stores the user token in the session", %{conn: conn, user: user} do
+      conn = UserAuth.log_in_user(conn, user)
+      assert token = get_session(conn, :user_token)
+      assert Accounts.get_user_by_session_token(token)
+    end
 
-  #   test "clears everything previously stored in the session", %{conn: conn, user: user} do
-  #     conn = conn |> put_session(:to_be_removed, "value") |> UserAuth.log_in_user(user)
-  #     refute get_session(conn, :to_be_removed)
-  #   end
+    test "clears everything previously stored in the session", %{conn: conn, user: user} do
+      conn = conn |> put_session(:to_be_removed, "value") |> UserAuth.log_in_user(user)
+      refute get_session(conn, :to_be_removed)
+    end
 
-  #   test "redirects to the configured path", %{conn: conn, user: user} do
-  #     conn = conn |> put_session(:user_return_to, "/hello") |> UserAuth.log_in_user(user)
-  #     assert redirected_to(conn) == "/hello"
-  #   end
+    test "writes a cookie if remember_me is configured", %{conn: conn, user: user} do
+      conn = conn |> fetch_cookies() |> UserAuth.log_in_user(user, %{"remember_me" => "true"})
+      assert get_session(conn, :user_token) == conn.cookies[@remember_me_cookie]
 
-  #   test "writes a cookie if remember_me is configured", %{conn: conn, user: user} do
-  #     conn = conn |> fetch_cookies() |> UserAuth.log_in_user(user, %{"remember_me" => "true"})
-  #     assert get_session(conn, :user_token) == conn.cookies[@remember_me_cookie]
-
-  #     assert %{value: signed_token, max_age: max_age} = conn.resp_cookies[@remember_me_cookie]
-  #     assert signed_token != get_session(conn, :user_token)
-  #     assert max_age == 5_184_000
-  #   end
-  # end
+      assert %{value: signed_token, max_age: max_age} = conn.resp_cookies[@remember_me_cookie]
+      assert signed_token != get_session(conn, :user_token)
+      assert max_age == 5_184_000
+    end
+  end
 
   describe "logout_user/1" do
     test "erases session and cookies", %{conn: conn, user: user} do
@@ -226,40 +219,6 @@ defmodule HexatubeWeb.UserAuthTest do
   end
 
   describe "require_authenticated_user/2" do
-    test "redirects if user is not authenticated", %{conn: conn} do
-      conn = conn |> fetch_flash() |> UserAuth.require_authenticated_user([])
-      assert conn.halted
-
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) ==
-               "You must log in to access this page."
-    end
-
-    test "stores the path to redirect to on GET", %{conn: conn} do
-      halted_conn =
-        %{conn | path_info: ["foo"], query_string: ""}
-        |> fetch_flash()
-        |> UserAuth.require_authenticated_user([])
-
-      assert halted_conn.halted
-      assert get_session(halted_conn, :user_return_to) == "/foo"
-
-      halted_conn =
-        %{conn | path_info: ["foo"], query_string: "bar=baz"}
-        |> fetch_flash()
-        |> UserAuth.require_authenticated_user([])
-
-      assert halted_conn.halted
-      assert get_session(halted_conn, :user_return_to) == "/foo?bar=baz"
-
-      halted_conn =
-        %{conn | path_info: ["foo"], query_string: "bar", method: "POST"}
-        |> fetch_flash()
-        |> UserAuth.require_authenticated_user([])
-
-      assert halted_conn.halted
-      refute get_session(halted_conn, :user_return_to)
-    end
-
     test "does not redirect if user is authenticated", %{conn: conn, user: user} do
       conn = conn |> assign(:current_user, user) |> UserAuth.require_authenticated_user([])
       refute conn.halted

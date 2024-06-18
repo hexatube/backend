@@ -24,6 +24,23 @@
       "title": "NewUser",
       "type": "object"
     },
+    "User": {
+      "description": "User object",
+      "example": {
+        "username": "Ivan"
+      },
+      "properties": {
+        "username": {
+          "description": "username",
+          "type": "string"
+        }
+      },
+      "required": [
+        "username"
+      ],
+      "title": "User",
+      "type": "object"
+    },
     "Video": {
       "description": "video model info",
       "properties": {
@@ -59,12 +76,67 @@
       "type": "object"
     }
   },
-  "host": "localhost:4000",
   "info": {
     "title": "Hexatube",
     "version": "1.0"
   },
   "paths": {
+    "/login": {
+      "post": {
+        "description": "Authenticate user",
+        "operationId": "HexatubeWeb.UserRegistrationController.login",
+        "parameters": [
+          {
+            "description": "username",
+            "in": "body",
+            "name": "username",
+            "required": true,
+            "schema": "string"
+          },
+          {
+            "description": "password",
+            "in": "body",
+            "name": "password",
+            "required": true,
+            "schema": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "UserRegistration"
+        ]
+      }
+    },
+    "/login/me": {
+      "get": {
+        "description": "Get information about current user. Required authentication.",
+        "operationId": "HexatubeWeb.UserRegistrationController.me",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "UserRegistration"
+        ]
+      }
+    },
     "/login/register": {
       "post": {
         "description": "Register new user",
@@ -80,6 +152,25 @@
             }
           }
         ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "UserRegistration"
+        ]
+      }
+    },
+    "/logout": {
+      "post": {
+        "description": "Logs out user. Required authentication.",
+        "operationId": "HexatubeWeb.UserRegistrationController.logout",
+        "parameters": [],
         "produces": [
           "application/json"
         ],
@@ -182,7 +273,7 @@
         "consumes": [
           "multipart/form-data"
         ],
-        "description": "Upload new video",
+        "description": "Upload new video. Requires authentication.",
         "operationId": "HexatubeWeb.VideoController.upload_video",
         "parameters": [
           {
@@ -230,6 +321,12 @@
           "Video"
         ]
       }
+    }
+  },
+  "securityDefinitions": {
+    "cookie": {
+      "description": "authorized request required",
+      "type": "basic"
     }
   },
   "swagger": "2.0"

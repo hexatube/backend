@@ -36,6 +36,11 @@ defmodule HexatubeWeb.ConnCase do
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
+  def register_user(%{conn: conn}) do
+    user = Hexatube.AccountsFixtures.user_fixture()
+    %{conn: conn, user: user}
+  end
+
   @doc """
   Setup helper that registers and logs in users.
 

@@ -1,4 +1,7 @@
 defmodule HexatubeWeb.UserAuth do
+  @moduledoc """
+  Context for working with users and authentication.
+  """
   use HexatubeWeb, :verified_routes
 
   import Plug.Conn
@@ -204,9 +207,9 @@ defmodule HexatubeWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "You must log in to access this page.")
-      |> maybe_store_return_to()
-      # |> redirect(to: ~p"/users/log_in")
+      |> resp(:unauthorized, "{}")
+      |> put_resp_content_type("application/json")
+      |> send_resp()
       |> halt()
     end
   end
@@ -214,14 +217,5 @@ defmodule HexatubeWeb.UserAuth do
   defp put_token_in_session(conn, token) do
     conn
     |> put_session(:user_token, token)
-    |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
   end
-
-  defp maybe_store_return_to(%{method: "GET"} = conn) do
-    put_session(conn, :user_return_to, current_path(conn))
-  end
-
-  defp maybe_store_return_to(conn), do: conn
-
-  # defp signed_in_path(_conn), do: ~p"/"
 end

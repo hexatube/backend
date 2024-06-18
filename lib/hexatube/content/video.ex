@@ -1,4 +1,7 @@
 defmodule Hexatube.Content.Video do
+  @moduledoc """
+  Video schema for DB.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

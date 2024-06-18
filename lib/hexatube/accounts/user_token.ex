@@ -1,4 +1,9 @@
 defmodule Hexatube.Accounts.UserToken do
+  @moduledoc """
+  Tokens schema for DB.
+  
+  Allows working with sessions, confirmations etc.
+  """
   use Ecto.Schema
   import Ecto.Query
   alias Hexatube.Accounts.UserToken

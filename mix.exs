@@ -60,6 +60,9 @@ defmodule Hexatube.MixProject do
       {:ex_json_schema, "~> 0.5"},
       {:uuid, "~> 1.1"},
       {:cors_plug, "~> 3.0"},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:peri, "~> 0.2"},
     ]
   end
 
