@@ -41,7 +41,6 @@ defmodule HexatubeWeb.UserRegistrationController do
     response 200, "Success"
   end
 
-  # TODO: return 400 on request validation failure
   def new_user(conn, params) do
     with {:ok, valid_data} <- UserRegistrationSchemas.new_user(params),
          {:ok, _user} <- Accounts.register_user(%{"name" => valid_data["username"], "password" => valid_data["password"]}) do
@@ -51,7 +50,7 @@ defmodule HexatubeWeb.UserRegistrationController do
   end
 
   swagger_path :me do
-    description "Get information about current user"
+    description "Get information about current user. Required authentication."
     produces "application/json"
     response 200, "Success", Schema.ref(:User)
   end
@@ -85,7 +84,7 @@ defmodule HexatubeWeb.UserRegistrationController do
   end
 
   swagger_path :logout do
-    description "Logs out user"
+    description "Logs out user. Required authentication."
     produces "application/json"
     response 200, "Success"
   end

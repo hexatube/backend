@@ -76,7 +76,6 @@
       "type": "object"
     }
   },
-  "host": "localhost:4000",
   "info": {
     "title": "Hexatube",
     "version": "1.0"
@@ -118,7 +117,7 @@
     },
     "/login/me": {
       "get": {
-        "description": "Get information about current user",
+        "description": "Get information about current user. Required authentication.",
         "operationId": "HexatubeWeb.UserRegistrationController.me",
         "parameters": [],
         "produces": [
@@ -169,7 +168,7 @@
     },
     "/logout": {
       "post": {
-        "description": "Logs out user",
+        "description": "Logs out user. Required authentication.",
         "operationId": "HexatubeWeb.UserRegistrationController.logout",
         "parameters": [],
         "produces": [
@@ -274,7 +273,7 @@
         "consumes": [
           "multipart/form-data"
         ],
-        "description": "Upload new video",
+        "description": "Upload new video. Requires authentication.",
         "operationId": "HexatubeWeb.VideoController.upload_video",
         "parameters": [
           {
@@ -322,6 +321,12 @@
           "Video"
         ]
       }
+    }
+  },
+  "securityDefinitions": {
+    "cookie": {
+      "description": "authorized request required",
+      "type": "basic"
     }
   },
   "swagger": "2.0"

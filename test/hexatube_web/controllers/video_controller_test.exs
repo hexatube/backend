@@ -20,4 +20,16 @@ defmodule HexatubeWeb.VideoControllerTest do
       assert response["type"] == "video/mp4"
     end
   end
+
+  describe "non-auth POST /video/upload" do
+    test "cannot upload video without user", %{conn: conn} do
+      conn = post(conn, ~p"/video/upload", %{
+        "video" => video_content_plug(),
+        "preview" => preview_content_plug(),
+        "name" => "testvideo",
+        "category" => "all"
+      })
+      assert json_response(conn, 401)
+    end
+  end
 end

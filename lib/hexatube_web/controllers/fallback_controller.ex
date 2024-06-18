@@ -25,6 +25,7 @@ defmodule HexatubeWeb.FallbackController do
   def call(conn, {:error, [%Peri.Error{} | _] = errors}) do
     conn
     |> put_view(json: HexatubeWeb.ErrorJSON)
+    |> put_status(:bad_request)
     |> render(:error, peri: errors)
   end
 end

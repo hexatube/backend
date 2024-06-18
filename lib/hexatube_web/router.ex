@@ -77,6 +77,12 @@ defmodule HexatubeWeb.Router do
       # cannot force to load it from Endpoint config (required to be compilation-time config)
       # because of ets not configured
       basePath: Application.fetch_env!(:hexatube, :base_api),
+      securityDefinitions: %{
+        cookie: %{
+          type: "basic",
+          description: "authorized request required",
+        },
+      },
       info: %{
         version: "1.0",
         title: "Hexatube",

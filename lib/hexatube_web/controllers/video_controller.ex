@@ -23,7 +23,7 @@ defmodule HexatubeWeb.VideoController do
   end
 
   swagger_path :upload_video do
-    description "Upload new video"
+    description "Upload new video. Requires authentication."
     produces "application/json"
     consumes "multipart/form-data"
     parameters do

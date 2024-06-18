@@ -207,6 +207,9 @@ defmodule HexatubeWeb.UserAuth do
       conn
     else
       conn
+      |> resp(:unauthorized, "{}")
+      |> put_resp_content_type("application/json")
+      |> send_resp()
       |> halt()
     end
   end
