@@ -12,6 +12,7 @@ defmodule Hexatube.Content.Video do
     field :preview_path, :string
     field :type, :string
     belongs_to :user, Hexatube.Accounts.User
+    has_many :ratings, Hexatube.Content.Rating
 
     timestamps(type: :utc_datetime)
   end

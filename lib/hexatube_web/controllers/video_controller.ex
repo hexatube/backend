@@ -3,6 +3,7 @@ defmodule HexatubeWeb.VideoController do
   use PhoenixSwagger
 
   alias Hexatube.Content
+  alias HexatubeWeb.VideoSchemas
 
   action_fallback HexatubeWeb.FallbackController
 
@@ -19,6 +20,13 @@ defmodule HexatubeWeb.VideoController do
           preview :string, "video preview relative url", required: true
         end
       end,
+      VideoId: swagger_schema do
+        title "Video id"
+        description "video id model"
+        properties do
+          id :integer, "video id", required: true
+        end
+      end
     }
   end
 
@@ -140,5 +148,38 @@ defmodule HexatubeWeb.VideoController do
 
   def get(_conn, %{}) do
     {:error, :not_found}
+  end
+
+  swagger_path :like do
+    description "Likes video. Requires authentication."
+    produces "application/json"
+    parameter :video_id, :body, Schema.ref(:VideoId), "video id object"
+    response 200, "Success"
+    response 422, "Video does not exist"
+  end
+
+  def like(conn, params) do
+    make_rating(conn, params, true)
+  end
+
+  swagger_path :dislike do
+    description "Dislikes video. Requires authentication."
+    produces "application/json"
+    parameter :video_id, :body, Schema.ref(:VideoId), "video id object"
+    response 200, "Success"
+    response 422, "Video does not exist"
+  end
+
+  def dislike(conn, params) do
+    make_rating(conn, params, false)
+  end
+
+  defp make_rating(conn, params, like) do
+    with {:ok, valid} <- VideoSchemas.like(params),
+      %{"id" => video_id} <- valid,
+      %Hexatube.Accounts.User{id: user_id} <- conn.assigns.current_user,
+      {:ok, _} <- Content.upsert_rating(user_id, video_id, like) do
+        render(conn, :empty)
+    end
   end
 end

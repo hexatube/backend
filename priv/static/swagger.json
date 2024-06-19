@@ -74,6 +74,20 @@
       ],
       "title": "Video data",
       "type": "object"
+    },
+    "VideoId": {
+      "description": "video id model",
+      "properties": {
+        "id": {
+          "description": "video id",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Video id",
+      "type": "object"
     }
   },
   "info": {
@@ -207,6 +221,70 @@
           },
           "404": {
             "description": "Not found"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/video/dislike": {
+      "post": {
+        "description": "Dislikes video. Requires authentication.",
+        "operationId": "HexatubeWeb.VideoController.dislike",
+        "parameters": [
+          {
+            "description": "video id object",
+            "in": "body",
+            "name": "video_id",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/VideoId"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Video does not exist"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Video"
+        ]
+      }
+    },
+    "/video/like": {
+      "post": {
+        "description": "Likes video. Requires authentication.",
+        "operationId": "HexatubeWeb.VideoController.like",
+        "parameters": [
+          {
+            "description": "video id object",
+            "in": "body",
+            "name": "video_id",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/VideoId"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Video does not exist"
           }
         },
         "summary": "",

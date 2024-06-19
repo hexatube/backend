@@ -10,6 +10,7 @@ defmodule Hexatube.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     has_many :videos, Hexatube.Content.Video
+    has_many :ratings, Hexatube.Content.Rating
 
     timestamps(type: :utc_datetime)
   end

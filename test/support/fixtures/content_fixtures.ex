@@ -40,4 +40,15 @@ defmodule Hexatube.ContentFixtures do
       filename: "test.png"
     }
   end
+
+  @doc """
+  Generate a rating.
+  """
+  def rating_fixture(attrs \\ %{}) do
+    user = AccountsFixtures.user_fixture()
+    video = video_fixture()
+
+    {:ok, rating} = Hexatube.Content.create_rating(user, video, Enum.into(attrs, %{like: true}))
+    rating
+  end
 end

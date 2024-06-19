@@ -22,8 +22,27 @@ defmodule HexatubeWeb.VideoJSON do
       category: video.category,
       video: Endpoint.url() <> Endpoint.path("/content/#{video.path}"),
       preview: Endpoint.url() <> Endpoint.path("/content/#{video.preview_path}"),
-      type: video.type
+      type: video.type,
+      rating: video_ratings(video.ratings),
     }
+  end
+
+  defp video_ratings(lst) when is_list(lst) do 
+    %{
+      likes: Enum.reduce(lst, 0, fn x, acc -> acc + like_to_int(x.like) end),
+      dislikes: Enum.reduce(lst, 0, fn x, acc -> acc + like_to_int(!x.like) end),
+    }
+  end
+
+  defp video_ratings(_) do
+    %{
+      likes: 0,
+      dislikes: 0,
+    }
+  end
+
+  defp like_to_int(x) do
+    if x, do: 1, else: 0
   end
 
   def empty(_) do
