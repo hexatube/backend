@@ -69,7 +69,7 @@ defmodule HexatubeWeb.VideoControllerTest do
 
     test "like non-existent video", %{conn: conn} do
       conn = post(conn, ~p"/video/like", %{
-        "id" => 99999,
+        "id" => 99_999,
       })
       assert %{"errors" => _} = json_response(conn, 422)
     end

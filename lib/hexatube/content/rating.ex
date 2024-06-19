@@ -1,4 +1,7 @@
 defmodule Hexatube.Content.Rating do
+  @moduledoc """
+  Rating database schema manipulations.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
