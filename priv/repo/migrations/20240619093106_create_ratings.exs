@@ -9,5 +9,7 @@ defmodule Hexatube.Repo.Migrations.CreateRatings do
 
       timestamps(type: :utc_datetime)
     end
+
+    create unique_index(:ratings, [:user_id, :video_id])
   end
 end

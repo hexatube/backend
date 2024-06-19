@@ -19,6 +19,7 @@ defmodule Hexatube.Content do
   """
   def list_videos do
     Repo.all(Video)
+    |> Repo.preload(:ratings)
   end
 
   def get_videos_paging(query, category, page, page_size) do
@@ -35,9 +36,14 @@ defmodule Hexatube.Content do
     videos =
       ecto_query
       |> page_offset(page, page_size)
+      |> preload_ratings()
       |> Repo.all()
 
     {videos, total}
+  end
+
+  defp preload_ratings(q) do
+    from v in q, preload: :ratings
   end
 
   defp eq_category(q, nil), do: q
@@ -79,9 +85,15 @@ defmodule Hexatube.Content do
       ** (Ecto.NoResultsError)
 
   """
-  def get_video!(id), do: Repo.get!(Video, id)
+  def get_video!(id) do
+    Repo.get!(Video, id)
+    |> Repo.preload(:ratings)
+  end
 
-  def get_video(id), do: Repo.get(Video, id)
+  def get_video(id) do
+    Repo.get(Video, id)
+    |> Repo.preload(:ratings)
+  end
 
   @doc """
   Creates a video.
@@ -96,9 +108,9 @@ defmodule Hexatube.Content do
 
   """
   def create_video(user, attrs \\ %{}) do
-    user
-    |> Ecto.build_assoc(:videos)
+    %Video{user_id: user.id}
     |> Video.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:ratings, [])
     |> Repo.insert()
   end
 
@@ -194,10 +206,16 @@ defmodule Hexatube.Content do
 
   """
   def create_rating(%User{id: user_id}, %Video{id: video_id}, attrs \\ %{}) do
+    create_rating_id(user_id, video_id, attrs)
+  end
+
+  def create_rating_id(user_id, video_id, attrs \\ %{}) do
     %Rating{user_id: user_id, video_id: video_id}
     |> Rating.changeset(attrs)
+    |> Ecto.Changeset.foreign_key_constraint(:video_id)
     |> Repo.insert()
   end
+
 
   @doc """
   Updates a rating.
@@ -244,5 +262,15 @@ defmodule Hexatube.Content do
   """
   def change_rating(%Rating{} = rating, attrs \\ %{}) do
     Rating.changeset(rating, attrs)
+  end
+
+  def upsert_rating(user_id, video_id, like) do
+    Repo.get_by(Rating, [user_id: user_id, video_id: video_id])
+    |> case do
+      nil ->
+        create_rating_id(user_id, video_id, %{like: like})
+      rating ->
+        update_rating(rating, %{like: like})
+    end
   end
 end

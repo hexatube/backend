@@ -3,6 +3,7 @@ defmodule HexatubeWeb.VideoController do
   use PhoenixSwagger
 
   alias Hexatube.Content
+  alias HexatubeWeb.VideoSchemas
 
   action_fallback HexatubeWeb.FallbackController
 
@@ -140,5 +141,22 @@ defmodule HexatubeWeb.VideoController do
 
   def get(_conn, %{}) do
     {:error, :not_found}
+  end
+
+  def like(conn, params) do
+    make_rating(conn, params, true)
+  end
+
+  def dislike(conn, params) do
+    make_rating(conn, params, false)
+  end
+
+  defp make_rating(conn, params, like) do
+    with {:ok, valid} <- VideoSchemas.like(params),
+      %{"id" => video_id} <- valid,
+      %Hexatube.Accounts.User{id: user_id} <- conn.assigns.current_user,
+      {:ok, _} <- Content.upsert_rating(user_id, video_id, like) do
+        render(conn, :empty)
+    end
   end
 end

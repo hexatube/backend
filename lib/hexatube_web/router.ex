@@ -59,6 +59,8 @@ defmodule HexatubeWeb.Router do
     pipe_through [:api, :require_authenticated_user]
 
     post "/upload", VideoController, :upload_video
+    post "/like", VideoController, :like
+    post "/dislike", VideoController, :dislike
   end
 
   scope "/video", HexatubeWeb do
