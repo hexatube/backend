@@ -14,7 +14,7 @@ defmodule HexatubeWeb.UserAuth do
   # the token expiry itself in UserToken.
   @max_age 60 * 60 * 24 * 60
   @remember_me_cookie "_hexatube_web_user_remember_me"
-  @remember_me_options [sign: true, max_age: @max_age, same_site: "Lax"]
+  @remember_me_options [sign: true, max_age: @max_age, same_site: "None"]
 
   @doc """
   Logs the user in.
@@ -189,7 +189,9 @@ defmodule HexatubeWeb.UserAuth do
   def redirect_if_user_is_authenticated(conn, _opts) do
     if conn.assigns[:current_user] do
       conn
-      # |> redirect(to: signed_in_path(conn))
+      |> resp(:forbidden, "{}")
+      |> put_resp_content_type("application/json")
+      |> send_resp()
       |> halt()
     else
       conn

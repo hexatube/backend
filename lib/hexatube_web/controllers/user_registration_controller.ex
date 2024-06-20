@@ -63,10 +63,7 @@ defmodule HexatubeWeb.UserRegistrationController do
   swagger_path :login do
     description "Authenticate user"
     produces "application/json"
-    parameters do
-      username :body, :string, "username", required: true
-      password :body, :string, "password", required: true
-    end
+    parameter :user, :body, Schema.ref(:NewUser), "user object"
     response 200, "Success"
   end
 

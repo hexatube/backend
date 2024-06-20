@@ -8,7 +8,7 @@ defmodule HexatubeWeb.Endpoint do
     store: :cookie,
     key: "_hexatube_key",
     signing_salt: "ndW3GGyz",
-    same_site: "Lax"
+    same_site: "None"
   ]
 
   socket "/live", Phoenix.LiveView.Socket,
