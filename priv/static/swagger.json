@@ -90,6 +90,7 @@
       "type": "object"
     }
   },
+  "host": "localhost:4000",
   "info": {
     "title": "Hexatube",
     "version": "1.0"
@@ -101,18 +102,13 @@
         "operationId": "HexatubeWeb.UserRegistrationController.login",
         "parameters": [
           {
-            "description": "username",
+            "description": "user object",
             "in": "body",
-            "name": "username",
-            "required": true,
-            "schema": "string"
-          },
-          {
-            "description": "password",
-            "in": "body",
-            "name": "password",
-            "required": true,
-            "schema": "string"
+            "name": "user",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
           }
         ],
         "produces": [
