@@ -49,7 +49,7 @@ defmodule HexatubeWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [
       :urlencoded, 
-      {:multipart, length: 20_000_000, read_length: 5_000_000},
+      {:multipart, length: 20_000_000, read_length: 20_000_000},
       :json
     ],
     pass: ["*/*"],
