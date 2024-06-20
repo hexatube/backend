@@ -51,7 +51,7 @@ config :phoenix, :json_library, Jason
 config :phoenix_swagger, json_library: Jason
 
 config :cors_plug,
-  origin: ["*"],
+  origin: ["hexatube.fun", "localhost:5173", "localhost:4000", "localhost"],
   methods: ["*"]
 
 # Import environment specific config. This must remain at the bottom
